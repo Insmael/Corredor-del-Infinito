@@ -59,7 +59,19 @@ endless runner
     
 - INTERACCIÓN ENTRE EL JUEGO Y LA VISTA
     
-   **DEMO**
+  - [ ] **DEMO**
 
-  **ARCHIVO README con instrucciones de ejecución del juego.**
+  - [ ] **ARCHIVO README con instrucciones de ejecución del juego.**
   
+  ###   PRESENTACIÓN
+  
+- [ ] breve descripción del problema.
+
+- [ ] explicación de las operaciones y de las metodologias usadas.
+
+- [ ] discución sobre las dificultades encontradas.
+
+- [ ] resultados.
+
+- [ ] conclusión a partir de los resultados.
+
