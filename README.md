@@ -1,65 +1,65 @@
 # Corredor-del-Infinito
 endless runner
 
-##TODO LIST
+## TODO LIST
 
-  ###MODEL
+  ###   MODEL
   
-    - FINAL DEL JUEGO
+- FINAL DEL JUEGO
     
-      - [ ] si el personaje sale del mapa, se cae y termina el juego.
+  - [ ] si el personaje sale del mapa, se cae y termina el juego.
       
-    - PERSONAJE
+- PERSONAJE
     
-      - [ ] un personaje que interactúa con el mapa y objetos.
+  - [ ] un personaje que interactúa con el mapa y objetos.
       
-    - MAPA
+- MAPA
     
-      - [ ] tunel con paralelepípedos con distintas inclinaciones, algunos deben estar conectados.
+  - [ ] tunel con paralelepípedos con distintas inclinaciones, algunos deben estar conectados.
       
-      - [ ] incluir dos mapas extra pregenerados.
+  - [ ] incluir dos mapas extra pregenerados.
       
-      - [ ] crear un mapa generado aleatoriamente.
+  - [ ] crear un mapa generado aleatoriamente.
       
-    - OBJETOS
+- OBJETOS
     
-      - [ ] cosas que generen cambios en la experiencia del juego.
+  - [ ] cosas que generen cambios en la experiencia del juego.
       
-  ###VIEW
+  ###   VIEW
   
-    - MENU
+- MENU
     
-      - [ ] incluir una pantalla de menu.
+  - [ ] incluir una pantalla de menu.
       
-    - PERSONAJE
+- PERSONAJE
     
-      - [ ] representado por una figura compleja.
+  - [ ] representado por una figura compleja.
       
-    - LUZ
+- LUZ
     
-      - [ ] debe cambiar a medida que el personaje avanza por el mapa (o a causa de la interacción con objetos).
+  - [ ] debe cambiar a medida que el personaje avanza por el mapa (o a causa de la interacción con objetos).
       
-    - MOVIMIENTO DE CAMARA RESPECTO AL MAPA
+- MOVIMIENTO DE CAMARA RESPECTO AL MAPA
     
-      - [ ] la imagen avanza con el jugador estático en el medio (si salta no sube con el)
+  - [ ] la imagen avanza con el jugador estático en el medio (si salta no sube con el)
       
-    - SEGUIMIENTO DE CAMARA RESPECTO AL JUGADOR
+- SEGUIMIENTO DE CAMARA RESPECTO AL JUGADOR
     
-      - [ ] si se mueve a los lados, girar la imagen para que el jugador este estático.
+  - [ ] si se mueve a los lados, girar la imagen para que el jugador este estático.
       
-  ###CONTROLER
+  ###   CONTROLER
   
-    - MUSICA
+- MUSICA
     
-      - [ ] efectos de sonido (y por interacción con objetos).
+  - [ ] efectos de sonido (y por interacción con objetos).
       
-    - CONTROLES DE MOVIMIENTO
+- CONTROLES DE MOVIMIENTO
+
+  - [ ] moverse hacia los lados y saltar.
     
-      - [ ] moverse hacia los lados y saltar.
-      
-    - INTERACCIÓN ENTRE EL JUEGO Y LA VISTA
+- INTERACCIÓN ENTRE EL JUEGO Y LA VISTA
     
-  - **DEMO**
-  
-  - **ARCHIVO README con instrucciones de ejecución del juego.**
+   **DEMO**
+
+  **ARCHIVO README con instrucciones de ejecución del juego.**
   
