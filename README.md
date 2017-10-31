@@ -59,9 +59,9 @@ endless runner
     
 - INTERACCIÓN ENTRE EL JUEGO Y LA VISTA
     
-  - [ ] **DEMO**
+- [ ] **DEMO**
 
-  - [ ] **ARCHIVO README con instrucciones de ejecución del juego.**
+- [ ] **ARCHIVO README con instrucciones de ejecución del juego.**
   
   ###   PRESENTACIÓN
   
