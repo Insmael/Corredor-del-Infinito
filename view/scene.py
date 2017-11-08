@@ -1,6 +1,7 @@
 from OpenGL.GL import *
 
 from view.elements.bloque import Bloque
+from view.vertex_generator import Vertex_generator
 
 
 class Scene:
@@ -11,15 +12,18 @@ class Scene:
         self.fig2 = Bloque()
         self.fig3 = Bloque()
         self.fig4 = Bloque()
+        faces = 8
+        self.vert_gen = Vertex_generator(1, faces, 0.2)
 
-        self.fig1.set_pos(0.0, -4.0)
-        self.fig2.set_pos(0.0, 4.0)
-        self.fig3.set_pos(4.0, 0.0)
-        self.fig4.set_pos(-4.0, 0.0)
-
-        self.fig2.set_rot_ang(180)
-        self.fig3.set_rot_ang(90)
-        self.fig4.set_rot_ang(-90)
+        centers_pos = self.vert_gen.centers_pos()
+        rot_angs = self.vert_gen.rot_angs()
+        all_vert = self.vert_gen.all_body_verteces(20)
+        for i in range(faces):
+            b = Bloque()
+            b.set_rot_ang(rot_angs[i])
+            b.set_pos(centers_pos[i][0], centers_pos[i][1])
+            b.def_vertices(all_vert)
+            self.figures.append(b)
 
     def draw(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -59,9 +63,7 @@ class Scene:
         glColor3f(0.0, 1.0, 0.0)
         glVertex3f(-1.0, -1.0, 1.0)
         glEnd()
-        """
 
-        self.fig1.draw()
-        self.fig2.draw()
-        self.fig3.draw()
-        self.fig4.draw()
+        """
+        for fig in self.figures:
+            fig.draw()
