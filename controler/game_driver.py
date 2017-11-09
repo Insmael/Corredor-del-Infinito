@@ -1,23 +1,22 @@
 from controler.event_manager import EventManager
-from controler.menus import PauseMenu, StartMenu
 from controler.sound_manager import SoundManager
-from model.game import Game
 from view.vista import Vista
 
 
-class GameDriver:
+class GameManager:
     """
     clase para administrar las diferentes facetas del juego.
     """
 
     def __init__(self):
-        self.game = Game()
+        # self.game = Game()
         self.vista = Vista()
         self.event_manager = EventManager()
         self.sound_manager = SoundManager()
-        self.start_menu = StartMenu()
-        self.pause_menu = PauseMenu()
-        self.actual_menu = self.start_menu
+        # self.start_menu = StartMenu()
+        # self.pause_menu = PauseMenu()
+        # self.actual_menu = self.start_menu
+        self.rot_ang = 0.0
 
     def start(self):
         """
@@ -26,14 +25,20 @@ class GameDriver:
         """
         self.event_manager.set_in_menu()
         while self.event_manager.in_menu():
-            self.event_manager.update()
-            self.vista.show_menu(self.start_menu)
+            self.event_manager.update(self)
+            #self.vista.show_menu(self.start_menu)
 
     def run(self):
         while True:
             self.event_manager.update(self)
-            self.game.update()
             self.vista.update()
+
 
     def set_in_pause(self):
         self.event_manager.set_in_menu()
+
+    def rot_left(self):
+        self.vista.rot_left()
+
+    def rot_right(self):
+        self.vista.rot_right()

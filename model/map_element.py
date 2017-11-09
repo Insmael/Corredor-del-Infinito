@@ -4,41 +4,65 @@ MITAD_DE_PANTALLA = 10
 FINAL_DE_IMAGEN = 0
 
 
-class MapElement:
+class Block:
     def __init__(self):
-        self._bl_corner_pos_x = 0
-        self._bl_corner_pos_y = 0
-        self._bl_corner_pos_z = 0
+        self.pos_x = 0
+        self.pos_y = 0
+        self.pos_z = 0
+        self.vertices = []
+
+        self.vertices.append([])
+        self.vertices.append([])
+        self.vertices_default()
+
+        self.z_pos = -100.0
+        self.speed = 0.05
+        self.x_pos = 0.0
+        self.y_pos = 0.0
+        self.rot_ang = 0.0
+
         self._width = 0
         self._high = 0
         self._deep = 0
-        self.color = (0.0, 0.0, 0.0)
         self.effect = efects.NullEffect()
+
+    def vertices_default(self):
+        self.vertices[0].append((1.0, 0.25, -2.0))
+        self.vertices[0].append((-1.0, 0.25, -2.0))
+        self.vertices[0].append((-1.0, 0.25, 2.0))
+        self.vertices[0].append((1.0, 0.25, 2.0))
+
+        self.vertices[1].append((1.0, -0.25, -2.0))
+        self.vertices[1].append((-1.0, -0.25, -2.0))
+        self.vertices[1].append((-1.0, -0.25, 2.0))
+        self.vertices[1].append((1.0, -0.25, 2.0))
+
+    def def_vertices(self, vertices):
+        self.vertices = vertices
 
     def set_default_size(self):
         self._width = 4
         self._high = 2
         self._deep = 10
 
-    def get_corners(self):
-        return self._bl_corner_pos_x, self._bl_corner_pos_y, self._bl_corner_pos_z
+    def get_center(self):
+        return self.pos_x, self.pos_y, self.pos_z
 
-    def move_to_valid_place(self, map_element_list: list, game_speed):
-        last_element = map_element_list[-1]
-        a, b, c = last_element.get_corners()
-        a += self._deep
-        self._bl_corner_pos_x, self._bl_corner_pos_y, self._bl_corner_pos_z = a, b, c
+    def set_pos(self, x, y, z):
+        self.x_pos = x
+        self.y_pos = y
+        self.z_pos += z
 
-    def update_pos(self, valor_giro):
-        self._bl_corner_pos_x += valor_giro
+    def set_rot_ang(self, rot_ang):
+        self.rot_ang = rot_ang
 
     def out_of_map(self):
-        return self._bl_corner_pos_x + self._deep < FINAL_DE_IMAGEN
+        return self.pos_z + self._deep / 2 < FINAL_DE_IMAGEN
 
-    def is_ground(self, x_pos):
-        return self._bl_corner_pos_x < x_pos < self._bl_corner_pos_x + self._deep and \
-               MITAD_DE_PANTALLA - self._width / 2 == self._bl_corner_pos_y
+    def is_ground(self, z_pos):
+        return self.pos_z < z_pos < self.pos_z + self._deep and \
+               MITAD_DE_PANTALLA - self._width / 2 == self.pos_y
 
 
-class NullMapElement(MapElement):
+class NullMapUnit(Block):
     pass

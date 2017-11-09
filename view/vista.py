@@ -8,21 +8,9 @@ from view.scene import Scene
 
 
 class Vista:
-    # def update(self, game_driver: GameDriver):
-    """
-    dibuja los elementos que necesitan ser nuevamente dibujados en la nueva escena.
-    :param game_driver: la instancia del juego completo que se busca dibujar
-    :return:
-    """
-
-    #   list_of_changes = game_driver.get_changed()
-    #   self.draw(list_of_changes)
-
-    # def draw(self, list_of_changes):
-
 
     def __init__(self):
-
+        self.prepare()
         self.scene = Scene()
 
     def resize(self, width, height):
@@ -43,25 +31,22 @@ class Vista:
         glDepthFunc(GL_LEQUAL)
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST)
 
-    def draw_all(self):
-        self.scene.draw()
-
-    def run_me(self):
+    def prepare(self):
         video_flags = OPENGL | DOUBLEBUF
-
         pygame.init()
         pygame.display.set_mode((640, 480), video_flags)
-
         self.resize(640, 480)
         self.init()
 
-        frames = 0
-        ticks = pygame.time.get_ticks()
-        while 1:
-            event = pygame.event.poll()
-            if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
-                break
+    def update(self):
+        self.draw_all()
+        pygame.display.flip()
 
-            self.draw_all()
-            pygame.display.flip()
-            frames = frames + 1
+    def draw_all(self):
+        self.scene.draw()
+
+    def rot_left(self):
+        self.scene.rot_left()
+
+    def rot_right(self):
+        self.scene.rot_right()

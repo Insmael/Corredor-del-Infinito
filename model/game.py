@@ -1,11 +1,9 @@
 from model.actor import Actor
-from model.mapa import Mapa
 from model.objetos import Objetos
 
 
 class Game:
     def __init__(self):
-        self.map = Mapa()
         self.actor = Actor()
         self.objetos = Objetos()
 

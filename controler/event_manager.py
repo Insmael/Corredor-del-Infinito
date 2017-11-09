@@ -1,6 +1,5 @@
 import pygame
 
-from controler.game_driver import GameDriver
 
 
 class EventManager:
@@ -48,13 +47,22 @@ class EventManager:
         serán recogidos por los administradores de eventos
         """
 
-        allowed = [pygame.QUIT, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN, pygame.K_p, pygame.K_m,
-                   pygame.K_KP_ENTER]
+        allowed = [pygame.QUIT, pygame.KEYUP, pygame.KEYDOWN]
 
         pygame.event.set_allowed(None)
         pygame.event.set_allowed(allowed)
 
-    def update(self, game_driver: GameDriver):
+    def update(self, game_driver):
+        events = pygame.event.get()
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.key == pygame.K_LEFT and event.type == pygame.KEYDOWN:
+                game_driver.rot_left()
+            if event.key == pygame.K_RIGHT and event.type == pygame.KEYDOWN:
+                game_driver.rot_right()
+
+    def update2(self, game_driver):
         """
         actualiza el juego segun los eventos que ingresa el usuario, los eventos son actualizados desde el gamedriver
         :param game_driver:
@@ -77,7 +85,7 @@ class MenuEventManager:
     clase que se encarga de coordinar los eventos de menu
     """
 
-    def handle_keydown_event(self, event: pygame.KEYDOWN, game_driver: GameDriver):
+    def handle_keydown_event(self, event: pygame.KEYDOWN, game_driver):
         """
         maneja un evento de presionar tecla, actuando sobre la instancia actual del juego
         :param event: el evento de presionar tecla
@@ -99,7 +107,7 @@ class MenuEventManager:
         if event == pygame.K_p:
             pass
 
-    def handle_keyup_event(self, event: pygame.KEYUP, game_driver: GameDriver):
+    def handle_keyup_event(self, event: pygame.KEYUP, game_driver):
         """
         maneja un evento de levantar tecla, actuando sobre la instancia actual del juego
         :param event: el evento de levantar tecla
@@ -114,7 +122,7 @@ class GameEventManager:
     clase que se encarga de coordinar los eventos de juego
     """
 
-    def handle_keydown_event(self, event: pygame.KEYDOWN, game_driver: GameDriver):
+    def handle_keydown_event(self, event: pygame.KEYDOWN, game_driver):
         """
         maneja un evento de presionar tecla, actuando sobre la instancia actual del juego
         :param event: el evento de presionar tecla
@@ -136,7 +144,7 @@ class GameEventManager:
         if event == pygame.K_KP_ENTER:
             pass
 
-    def handle_keyup_event(self, event: pygame.KEYUP, game_driver: GameDriver):
+    def handle_keyup_event(self, event: pygame.KEYUP, game_driver):
         """
         maneja un evento de levantar tecla, actuando sobre la instancia actual del juego
         :param event: el evento de levantar tecla

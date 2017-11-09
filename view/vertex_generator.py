@@ -2,11 +2,20 @@ from math import cos, sin, tan, radians
 
 
 class Vertex_generator:
-    def __init__(self, radius: float, faces: int, high: float):
+    def __init__(self, radius: float, faces: int, high: float, center_deep: float):
         self.radius = radius + high / 2
+        self.center_deep = center_deep
         self.delta_ang = 360.0 / faces
         self.faces = faces
         self.high = high
+
+    def define(self, radius: float, faces: int, high: float, center_deep: float):
+        self.radius = radius + high / 2
+        self.center_deep = center_deep
+        self.delta_ang = 360.0 / faces
+        self.faces = faces
+        self.high = high
+
 
     def centers_pos(self):
         centers = []
@@ -15,6 +24,7 @@ class Vertex_generator:
             v = []
             v.append(self.radius * cos(radians(ang)))
             v.append(self.radius * sin(radians(ang)))
+            v.append(self.center_deep)
             centers.append(v)
             ang += self.delta_ang
         return centers

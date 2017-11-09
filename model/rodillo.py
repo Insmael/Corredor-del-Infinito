@@ -1,4 +1,4 @@
-from model.map_element import MapElement, NullMapElement
+from model.map_element import Block, NullMapUnit
 
 
 class Rodillo:
@@ -17,8 +17,8 @@ class Rodillo:
         genera un primer grupo de elementos para el mapa
         """
         for i in range(3):  # cantidad de elementos a agregar en un comienzo:
-            elemento = MapElement()
-            MapElement.set_default_size()
+            elemento = Block()
+            Block.set_default_size()
             elemento.move_to_valid_place(self.elementos, self.velocidad_inicial)
             self.elementos.append(elemento)
 
@@ -43,7 +43,7 @@ class Rodillo:
         for elemento in self.elementos:
             if elemento.is_ground(x_pos):
                 return elemento
-        return NullMapElement()
+        return NullMapUnit()
 
     def rotar_der(self):
         pass
