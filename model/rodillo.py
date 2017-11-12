@@ -4,6 +4,7 @@ import pygame
 from OpenGL.GL import *
 
 from model.map_element import *
+from view.elements.actorStyle import RectangleActor
 from view.vertex_generator import Vertex_generator
 
 
@@ -14,13 +15,14 @@ class Rodillo:
 
     def __init__(self):
         self.c_x = self.c_y = self.x = 0.0
-        self.actor = 0.0
+        self.actor_deep = -0.7
+        self.actor = RectangleActor([0.0, -0.15, self.actor_deep])
         self.faces = 8
         self.delta_ang = 360.0 / self.faces
         self.rot = -90.0
-        self.deep = 5
-        self.fdip = 0
-        self.speed = 0.15
+        self.deep = 9
+        self.render_deepness = 0.0
+        self.speed = 0.05
         self.slices = []
         self.vert_gen = Vertex_generator(1, self.faces, 0.2, 2)
         for i in range(9):
@@ -43,43 +45,43 @@ class Rodillo:
 
     def draw(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-        i = self.fdip
+        z_pos = self.render_deepness
         for a_slice in self.slices:
-            i -= self.deep
+            z_pos -= self.deep
             for fig in a_slice:
-                fig.draw(self.rot, i)
-        self.fdip += self.speed
+                fig.draw(self.rot, z_pos)
+        self.render_deepness += self.speed
         self.send_back()
+        self.actor.draw(self.rot)
 
         if self.is_standable():
             pass
 
     def rot_left(self):
         self.rot += self.delta_ang
-        self.actor = -self.rot
 
     def rot_right(self):
         self.rot -= self.delta_ang
-        self.actor = -self.rot
 
     def make_random(self):
         for i in range(2, len(self.slices)):
             self.remake_random(self.slices[i])
 
     def remake_random(self, a_slice):
-        k = randint(0, self.faces)
+        k = max(0, randint(-3, self.faces))
         for i in range(k):
             a_slice.pop(randint(0, len(a_slice) - 1))
 
     def send_back(self):
-        if self.fdip > self.deep * 2:
-            self.fdip -= self.deep
+        if self.render_deepness > self.deep * 2:
+            self.render_deepness -= self.deep
             self.create_slice(len(self.slices))
             self.slices.pop(0)
             self.remake_random(self.slices[-1])
 
     def is_standable(self):
-        for fig in self.slices[1]:
+        actual_slice = int((self.render_deepness + self.actor_deep * (1.5) + self.deep) / self.deep - 1)
+        for fig in self.slices[actual_slice]:
             c_x, c_y = fig.get_center()
             x = c_y * sin(-radians(self.rot)) + c_x * cos(radians(self.rot))
             y = c_x * sin(radians(self.rot)) + c_y * cos(-radians(self.rot))
