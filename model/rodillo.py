@@ -1,4 +1,10 @@
-from model.map_element import Block, NullMapUnit
+from math import cos, sin, radians
+
+import pygame
+from OpenGL.GL import *
+
+from model.map_element import *
+from view.vertex_generator import Vertex_generator
 
 
 class Rodillo:
@@ -7,46 +13,101 @@ class Rodillo:
     """
 
     def __init__(self):
-        self.elementos = []
-        self.velocidad_inicial = 1.0
-        self.n_elem_in_slice = 6
-        self.start_rodillo()
+        self.c_x = self.c_y = self.x = 0.0
+        self.actor = 0.0
+        self.faces = 8
+        self.delta_ang = 360.0 / self.faces
+        self.rot = -90.0
+        self.deep = 5
+        self.fdip = 0
+        self.speed = 0.15
+        self.slices = []
+        self.vert_gen = Vertex_generator(1, self.faces, 0.2, 2)
+        for i in range(9):
+            self.create_slice(i)
+        self.make_random()
 
-    def start_rodillo(self):
-        """
-        genera un primer grupo de elementos para el mapa
-        """
-        for i in range(3):  # cantidad de elementos a agregar en un comienzo:
-            elemento = Block()
-            Block.set_default_size()
-            elemento.move_to_valid_place(self.elementos, self.velocidad_inicial)
-            self.elementos.append(elemento)
+    def create_slice(self, i):
+        figures = []
+        self.vert_gen.define(1, self.faces, 0.2, self.deep * i)
+        centers_pos = self.vert_gen.centers_pos()
+        rot_angs = self.vert_gen.rot_angs()
+        all_vert = self.vert_gen.all_body_verteces(self.deep)
+        for j in range(self.faces):
+            b = Block()
+            b.set_rot_ang(rot_angs[j])
+            b.set_pos(centers_pos[j][0], centers_pos[j][1])
+            b.def_vertices(all_vert)
+            figures.append(b)
+        self.slices.append(figures)
 
-    def girar_rodillo(self, valor_giro):
-        """
-        mueve los elementos segun el valor de giro dado, si un elemento queda fuera del mapa, es reposicionado.
-        :param valor_giro: cantidad de desplazamiento del rodillo
-        :return:
-        """
-        for elemento in self.elementos:
-            elemento.update_pos(valor_giro)
-            if elemento.out_of_map():
-                elemento.move_to_valid_place(self.elementos, self.velocidad_inicial)
+    def draw(self):
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        i = self.fdip
+        for a_slice in self.slices:
+            i -= self.deep
+            for fig in a_slice:
+                fig.draw(self.rot, i)
+        self.fdip += self.speed
+        self.send_back()
 
-    def get_ground(self, x_pos):
-        """
-        entrega el elemento en el cual se para, o se podría parar el actor, si no existe tal elemento entrega un
-        elemento nulo.
-        :param x_pos:
-        :return: elemento sobre el que se para el actor
-        """
-        for elemento in self.elementos:
-            if elemento.is_ground(x_pos):
-                return elemento
-        return NullMapUnit()
+        if self.is_standable():
+            pass
 
-    def rotar_der(self):
-        pass
+    def rot_left(self):
+        self.rot += self.delta_ang
+        self.actor = -self.rot
 
-    def rotar_izq(self):
-        pass
+    def rot_right(self):
+        self.rot -= self.delta_ang
+        self.actor = -self.rot
+
+    def make_random(self):
+        for i in range(2, len(self.slices)):
+            self.remake_random(self.slices[i])
+
+    def remake_random(self, a_slice):
+        k = randint(0, self.faces)
+        for i in range(k):
+            a_slice.pop(randint(0, len(a_slice) - 1))
+
+    def send_back(self):
+        if self.fdip > self.deep * 2:
+            self.fdip -= self.deep
+            self.create_slice(len(self.slices))
+            self.slices.pop(0)
+            self.remake_random(self.slices[-1])
+
+    def is_standable(self):
+        for fig in self.slices[1]:
+            c_x, c_y = fig.get_center()
+            x = c_y * sin(-radians(self.rot)) + c_x * cos(radians(self.rot))
+            y = c_x * sin(radians(self.rot)) + c_y * cos(-radians(self.rot))
+            if abs(x) < 0.01:
+                if y < 0:
+                    self.draw_text(0.0, 0.0, fig.eff_to_str())
+                    return True
+        return False
+
+    def drawtriangulo(self):
+        glLoadIdentity()
+
+        glTranslatef(0.0, 0.0, -30.0)
+
+        glBegin(GL_TRIANGLES)
+        glColor3f(1.0, 0.0, 0.0)
+        glVertex3f(0.0, 1.0, 0.0)
+        glColor3f(0.0, 1.0, 0.0)
+        glVertex3f(-1.0, -1.0, 0)
+        glColor3f(0.0, 0.0, 1.0)
+        glVertex3f(1.0, -1.0, 0)
+        glEnd()
+
+    def draw_text(self, x, y, text, color=(255, 255, 255, 0), fondo=(0, 0, 0, 0), tamaño=25):
+        position = (x, y, 0.0, 0.0)
+        font = pygame.font.Font(None, tamaño)
+        text_surface = font.render(text, True, color, fondo)
+        text_data = pygame.image.tostring(text_surface, "RGBA", True)
+        glTranslatef(10, 5, 0.0)
+        glRasterPos4f(*position)
+        glDrawPixels(text_surface.get_width(), text_surface.get_height(), GL_RGBA, GL_UNSIGNED_BYTE, text_data)

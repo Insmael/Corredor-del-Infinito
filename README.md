@@ -15,11 +15,11 @@ endless runner
       
 - MAPA
     
-  - [ ] tunel con paralelepípedos con distintas inclinaciones, algunos deben estar conectados.
+  - [x] tunel con paralelepípedos con distintas inclinaciones, algunos deben estar conectados.
       
   - [ ] incluir dos mapas extra pregenerados.
       
-  - [ ] crear un mapa generado aleatoriamente.
+  - [x] crear un mapa generado aleatoriamente.
       
 - OBJETOS
     
@@ -58,6 +58,8 @@ endless runner
   - [ ] moverse hacia los lados y saltar.
     
 - INTERACCIÓN ENTRE EL JUEGO Y LA VISTA
+
+    - el juego y la vista son la misma estructura.
     
 - [ ] **DEMO**
 
@@ -67,7 +69,8 @@ endless runner
   
 - [ ] breve descripción del problema.
 
-- [ ] explicación de las operaciones y de las metodologias usadas.
+- [ ] explicación de las operaciones y de las metodologias usadas. (explicar las metáforas 
+pensadas para representar el problema)
 
 - [ ] discución sobre las dificultades encontradas.
 

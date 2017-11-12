@@ -1,4 +1,4 @@
-from random import random
+from random import gauss
 
 from OpenGL.GL import *
 
@@ -10,17 +10,35 @@ class BlockStyle:
         self.vertices.append([])
         self.vertices_default()
         self.color1 = self.rand_color()
-        self.color2 = self.rand_color()
-        self.z_pos = -100.0
-        self.speed = 0.05
+        self.color2 = self.color_2()
         self.x_pos = 0.0
         self.y_pos = 0.0
         self.rot_ang = 0.0
 
+    def set_color(self, colors):
+        self.color1 = self.rand_gauss_color(colors)
+        self.color_2()
+
+    def get_center(self):
+        return self.x_pos, self.y_pos
+
+    def rand_gauss_color(self, colors):
+        R = gauss(colors[0], 0.05)
+        G = gauss(colors[1], 0.05)
+        B = gauss(colors[2], 0.05)
+        return R, G, B
+
     def rand_color(self):
-        R = random()
-        G = random()
-        B = random()
+        R = gauss(0.1, 0.1)
+        G = gauss(0.6, 0.1)
+        B = gauss(0.6, 0.1)
+        return R, G, B
+
+    def color_2(self):
+        R, G, B = self.color1
+        R -= 0.1
+        G -= 0.1
+        B -= 0.1
         return R, G, B
 
     def def_vertices(self, vertices):
@@ -37,28 +55,27 @@ class BlockStyle:
         self.vertices[1].append((-1.0, -0.25, 2.0))
         self.vertices[1].append((1.0, -0.25, 2.0))
 
-    def set_pos(self, x, y, z):
+    def set_pos(self, x, y):
         self.x_pos = x
         self.y_pos = y
-        self.z_pos += z
 
     def set_rot_ang(self, rot_ang):
         self.rot_ang = rot_ang
 
-    def draw(self, rot: float):
+    def draw(self, rot: float, z_pos):
         glLoadIdentity()
         glRotatef(rot, 0.0, 0.0, 1.0)
-        glTranslatef(self.x_pos, self.y_pos, self.z_pos)
+        glTranslatef(self.x_pos, self.y_pos, z_pos)
         glRotatef(self.rot_ang, 0.0, 0.0, 1.0)
         glBegin(GL_QUADS)
 
-        glColor3fv(self.color1)
+        glColor3fv(self.color2)
         glVertex3fv(self.vertices[0][0])
         glVertex3fv(self.vertices[0][1])
         glVertex3fv(self.vertices[0][2])
         glVertex3fv(self.vertices[0][3])
 
-        glColor3fv(self.color2)
+        glColor3fv(self.color1)
         glVertex3fv(self.vertices[0][0])
         glVertex3fv(self.vertices[0][3])
         glVertex3fv(self.vertices[1][3])
@@ -89,5 +106,3 @@ class BlockStyle:
         """
 
         glEnd()
-
-        self.z_pos += self.speed

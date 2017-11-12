@@ -3,12 +3,25 @@ class Effect:
 
 
 class NullEffect(Effect):
-    pass
+    def __str__(self):
+        return "Effect:Normal"
 
 
-class SpeedEffect(Effect):
-    pass
+class SpeedUpEffect(Effect):
+    def __str__(self):
+        return "Effect:SpeedUp"
 
 
-class DownEffect(Effect):
-    pass
+class SpeedDownEffect(Effect):
+    def __str__(self):
+        return "Effect:SpeedDown"
+
+
+class LightChangeEffect(Effect):
+    def __str__(self):
+        return "Effect:LightChange"
+
+
+class PointEffect(Effect):
+    def __str__(self):
+        return "Effect:Points"
