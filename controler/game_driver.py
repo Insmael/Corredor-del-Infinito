@@ -38,7 +38,13 @@ class GameManager:
         self.event_manager.set_in_menu()
 
     def rot_left(self):
-        self.vista.rot_left()
+        self.vista.jump_left()
 
     def rot_right(self):
-        self.vista.rot_right()
+        self.vista.jump_right()
+
+    def jump_straight(self):
+        self.vista.jump_straight()
+
+    def fall(self):
+        self.vista.fall()

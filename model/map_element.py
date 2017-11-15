@@ -3,9 +3,6 @@ from random import randint, gauss
 from model.interactions.efects import *
 from view.elements.blockstyle import BlockStyle
 
-MITAD_DE_PANTALLA = 10
-FINAL_DE_IMAGEN = 0
-
 
 class Block:
     def __init__(self):
@@ -40,7 +37,7 @@ class Block:
         self.style.set_pos(x, y)
 
     def def_vertices(self, vertices):
-        self.style.def_vertices(vertices)
+        self.style.set_vertices(vertices)
 
     def draw(self, rot, z_pos):
         self.style.draw(rot, z_pos)
@@ -50,3 +47,6 @@ class Block:
 
     def eff_to_str(self):
         return str(self.effect)
+
+    def interact(self, rodillo):
+        self.effect.interact(rodillo)

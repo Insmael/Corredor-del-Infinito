@@ -1,14 +1,38 @@
 class Action:
-    pass
+    def texture_name(self):
+        return 'galaxia1'
 
 
-class SetDifficulty(Action):
-    pass
+class EasyDifficulty(Action):
+    def texture_name(self):
+        return 'facil'
+
+
+class MediumDifficulty(Action):
+    def texture_name(self):
+        return 'media'
+
+
+class HardDifficulty(Action):
+    def texture_name(self):
+        return 'dificil'
+
+
+class Continue(Action):
+    def texture_name(self):
+        return 'reanudar'
 
 
 class StartGame(Action):
-    pass
+    def texture_name(self):
+        return 'comenzar'
 
 
 class CloseGame(Action):
-    pass
+    def texture_name(self):
+        return 'salir'
+
+
+class GoMenu(Action):
+    def texture_name(self):
+        return 'IrAlMenu'

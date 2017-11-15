@@ -1,2 +1,65 @@
+import os
+
+import pygame
+import pygame.image
+from OpenGL.GL import *
+from OpenGL.GLU import *
+
+
 class Context:
-    pass
+    def __init__(self):
+        self.textures = self.load('Galaxy_.bmp')
+        self.button_textures = {}
+        self.button_textures['comenzar'] = self.load('comenzar.bmp')
+        self.button_textures['reanudar'] = self.load('reanudar.bmp')
+        self.button_textures['salir'] = self.load('salir.bmp')
+        self.button_textures['dificil'] = self.load('dificil.bmp')
+        self.button_textures['facil'] = self.load('facil.bmp')
+        self.button_textures['media'] = self.load('media.bmp')
+
+    def get_buttons_textures(self):
+        return self.button_textures
+
+    def load(self, file):
+        texturefile = os.path.join('view', 'wallpapers', file)
+        textureSurface = pygame.image.load_extended(texturefile)
+        textureData = pygame.image.tostring(textureSurface, "RGBX", 1)
+        textures = glGenTextures(3)
+
+        glBindTexture(GL_TEXTURE_2D, textures[0])
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, textureSurface.get_width(), textureSurface.get_height(), 0,
+                     GL_RGBA, GL_UNSIGNED_BYTE, textureData)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+
+        glBindTexture(GL_TEXTURE_2D, textures[1])
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, textureSurface.get_width(), textureSurface.get_height(), 0,
+                     GL_RGBA, GL_UNSIGNED_BYTE, textureData)
+
+        glBindTexture(GL_TEXTURE_2D, textures[2])
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+        gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, textureSurface.get_width(), textureSurface.get_height(),
+                          GL_RGBA, GL_UNSIGNED_BYTE, textureData)
+        return textures
+
+    def draw(self):
+        glLoadIdentity()
+        glTranslatef(0.0, 0.0, -100.0)
+        glScalef(50.0, 40.0, 0.0)
+        glEnable(GL_TEXTURE_2D)
+        glBindTexture(GL_TEXTURE_2D, self.textures[2])
+        glBegin(GL_QUADS)
+        glNormal3f(0.0, 0.0, 1.0)
+        glTexCoord2f(0.0, 0.0)
+        glVertex3f(-1.0, -1.0, 1.0)  # Bottom Left Of The Texture and Quad
+        glTexCoord2f(1.0, 0.0)
+        glVertex3f(1.0, -1.0, 1.0)  # Bottom Right Of The Texture and Quad
+        glTexCoord2f(1.0, 1.0)
+        glVertex3f(1.0, 1.0, 1.0)  # Top Right Of The Texture and Quad
+        glTexCoord2f(0.0, 1.0)
+        glVertex3f(-1.0, 1.0, 1.0)  # Top Left Of The Texture and Quad
+        glEnd()
+        glDisable(GL_TEXTURE_2D)

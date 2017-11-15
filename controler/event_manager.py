@@ -55,12 +55,17 @@ class EventManager:
     def update(self, game_driver):
         events = pygame.event.get()
         for event in events:
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT or event.key == pygame.K_ESCAPE:
                 pygame.quit()
             if event.key == pygame.K_LEFT and event.type == pygame.KEYDOWN:
                 game_driver.rot_left()
             if event.key == pygame.K_RIGHT and event.type == pygame.KEYDOWN:
                 game_driver.rot_right()
+            if event.key == pygame.K_UP and event.type == pygame.KEYDOWN:
+                game_driver.jump_straight()
+            if (event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP) \
+                    and event.type == pygame.KEYUP:
+                game_driver.fall()
 
     def update2(self, game_driver):
         """
@@ -134,9 +139,9 @@ class GameEventManager:
         if event == pygame.K_UP:
             game_driver.game.jump_straight()
         if event == pygame.K_RIGHT:
-            game_driver.game.jump_right()
+            game_driver.game.rot_right()
         if event == pygame.K_LEFT:
-            game_driver.game.jump_left()
+            game_driver.game.rot_left()
         if event == pygame.K_m:
             game_driver.sound_manager.on_off_music()
         if event == pygame.K_p:
