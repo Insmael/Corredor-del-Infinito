@@ -47,10 +47,12 @@ class MenuScene:
                                   Button(MediumDifficulty(), (0.0, 0.0, -12.0)),
                                   Button(HardDifficulty(), (0.0, 0.0, -12.0)))
         self.actual_difficulty = self.dificulty_buttons[0]
-        self.default_buttoms = [Button(StartGame(), (-5.0, 0.0, -12.0)), Button(CloseGame(), (5.0, 0.0, -12.0)),
-                                self.actual_difficulty]
+        self.default_buttoms = [Button(StartGame(), (-5.0, 0.0, -12.0)), self.actual_difficulty,
+                                Button(CloseGame(), (5.0, 0.0, -12.0))]
 
         self.context = Context()
+        self.over = 1
+        self.default_buttoms[self.over].change_over()
 
     def draw(self):
         self.context.draw()
@@ -66,3 +68,6 @@ class MenuScene:
 
     def set_hard(self):
         self.actual_difficulty = self.dificulty_buttons[2]
+
+    def select(self):
+        self.default_buttoms[self.over].select()

@@ -2,6 +2,8 @@ class Action:
     def texture_name(self):
         return 'galaxia1'
 
+    def act(self):
+        pass
 
 class EasyDifficulty(Action):
     def texture_name(self):
