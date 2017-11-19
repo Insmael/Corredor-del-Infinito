@@ -15,6 +15,7 @@ class Rodillo:
     def __init__(self):
 
         # construcción del mapa
+        self.block_ratio = -3
         self.faces = 8
         self.deep = 5
         self.slices = []
@@ -65,7 +66,7 @@ class Rodillo:
             self.remake_random(self.slices[i])
 
     def remake_random(self, a_slice):  # una slice
-        k = max(0, randint(-3, self.faces))
+        k = max(0, randint(int(self.block_ratio), self.faces))
         for i in range(k):
             a_slice.pop(randint(0, len(a_slice) - 1))
 

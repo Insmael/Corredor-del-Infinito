@@ -1,4 +1,4 @@
-from controler.game_driver import GameManager
+from view.vista import Vista
 
-game = GameManager()
+game = Vista()
 game.run()

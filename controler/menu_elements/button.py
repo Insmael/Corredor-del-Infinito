@@ -1,10 +1,10 @@
 from controler.menu_elements.actions import Action
-from view.elements.bottonStyle import BottonStyle
+from view.elements.buttonStyle import ButtonStyle
 
 class Button:
     def __init__(self, action: Action, place=(0.0, 0.0, 0.0)):
         self.action = action
-        self.style = BottonStyle(self.action.texture_name(), place)
+        self.style = ButtonStyle(self.action.texture_name(), place)
         self.over = False
 
     def draw(self):
@@ -13,5 +13,5 @@ class Button:
     def change_over(self):
         self.style.change_shining()
 
-    def select(self):
-        self.action.act()
+    def select(self, vista):
+        self.action.act(vista)

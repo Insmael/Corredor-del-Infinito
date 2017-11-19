@@ -34,7 +34,7 @@ class RectangleActor(Actor):
 
     def draw(self):
         if self.falling:
-            self.jump_ang -= self.delta_jump_frame * 2
+            self.jump_ang -= self.delta_jump_frame * 4
             self.pos[Axis.Y] = self.jump_floor + sin(self.jump_ang) * (self.jump_limit - self.jump_floor)
         if self.jumping:
             self.jump_ang += self.delta_jump_frame
@@ -72,3 +72,6 @@ class RectangleActor(Actor):
     def normal_fall(self):
         if not self.jumping:
             self.falling = True
+
+    def is_game_over(self):
+        return self.pos[Axis.Y] < self.jump_floor - 0.1

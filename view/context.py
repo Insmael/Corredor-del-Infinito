@@ -8,17 +8,7 @@ from OpenGL.GLU import *
 
 class Context:
     def __init__(self):
-        self.textures = self.load('Galaxy_.bmp')
-        self.button_textures = {}
-        self.button_textures['comenzar'] = self.load('comenzar.bmp')
-        self.button_textures['reanudar'] = self.load('reanudar.bmp')
-        self.button_textures['salir'] = self.load('salir.bmp')
-        self.button_textures['dificil'] = self.load('dificil.bmp')
-        self.button_textures['facil'] = self.load('facil.bmp')
-        self.button_textures['media'] = self.load('media.bmp')
-
-    def get_buttons_textures(self):
-        return self.button_textures
+        self.textures = self.load('galaxia3.bmp')
 
     def load(self, file):
         texturefile = os.path.join('view', 'wallpapers', file)
