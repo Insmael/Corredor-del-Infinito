@@ -111,6 +111,7 @@ class Vista:
         self.actual_scene = self.menu_scene
         self.menu_scene.reestart()
         self.game_scene.reestart()
+        self.set_easy()
         self.pause_scene.reestart()
 
     def game_over(self):

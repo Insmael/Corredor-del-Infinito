@@ -1,4 +1,3 @@
-import pygame
 import os
 
 import pygame
@@ -23,14 +22,14 @@ class Other:
 class GameOverMessage(Other):
     def __init__(self):
         super(GameOverMessage, self).__init__()
-        self.message = (SimpleTexture('g', (-4.0, 0.0, 0.0)),
-                        SimpleTexture('a', (-3.0, 0.0, 0.0)),
-                        SimpleTexture('m', (-4.0, 0.0, 0.0)),
-                        SimpleTexture('e', (-1.0, 0.0, 0.0)),
-                        SimpleTexture('o', (1.0, 0.0, 0.0)),
-                        SimpleTexture('v', (2.0, 0.0, 0.0)),
-                        SimpleTexture('e', (3.0, 0.0, 0.0)),
-                        SimpleTexture('r', (4.0, 0.0, 0.0)))
+        self.message = (SimpleTexture('g', (-11.0, 2.0, -20.0)),
+                        SimpleTexture('a', (-8.0, 2.0, -20.0)),
+                        SimpleTexture('m', (-5.0, 2.0, -20.0)),
+                        SimpleTexture('e', (-2.0, 2.0, -20.0)),
+                        SimpleTexture('o', (2.0, 2.0, -20.0)),
+                        SimpleTexture('v', (5.0, 2.0, -20.0)),
+                        SimpleTexture('e', (8.0, 2.0, -20.0)),
+                        SimpleTexture('r', (11.0, 2.0, -20.0)))
         self.new_pos((0.0, 1.0, 0.0))
 
     def draw(self):

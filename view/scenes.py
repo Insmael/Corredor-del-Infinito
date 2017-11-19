@@ -131,7 +131,7 @@ class GameOverScene(MenuScene):
     def draw(self):
         self.context.draw()
         for key in self.button_keys:
-            pass  # self.buttons[key].draw()
+            self.buttons[key].draw()
         self.game_over_message.draw()
 
     def select(self, vista):
