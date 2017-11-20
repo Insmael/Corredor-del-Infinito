@@ -18,30 +18,34 @@ class GameScene:
 
     def set_difficulty(self, game_speed, block_ratio):
         self.rodillo.speed *= game_speed
-        self.rodillo.block_ratio *= 1 / block_ratio
+        self.rodillo.block_ratio *= block_ratio
 
     def draw(self):
         self.context.draw()
         self.rodillo.draw()
+        self.rodillo.draw_points()
         self.actor.draw()
 
-        if self.rodillo.is_standable(self.actor_deep):
+        if self.rodillo.is_standable(self.actor_deep, self.actor.is_standing()):
             self.actor.stop_falling()
         else:
             self.actor.normal_fall()
 
+    def light_interaction(self):
+        return self.rodillo.light_switch
+
     def jump_left(self):
         if not self.actor.moving():
-            self.actor.set_jumping(self.rodillo.is_standable(self.actor_deep))
+            self.actor.set_jumping(self.rodillo.is_standable(self.actor_deep, self.actor.is_standing()))
             self.rodillo.rot_left()
 
     def jump_right(self):
         if not self.actor.moving():
-            self.actor.set_jumping(self.rodillo.is_standable(self.actor_deep))
+            self.actor.set_jumping(self.rodillo.is_standable(self.actor_deep, self.actor.is_standing()))
             self.rodillo.rot_right()
 
     def jump_straight(self):
-        self.actor.set_jumping(self.rodillo.is_standable(self.actor_deep))
+        self.actor.set_jumping(self.rodillo.is_standable(self.actor_deep, self.actor.is_standing()))
 
     def fall(self):
         self.actor.fall()

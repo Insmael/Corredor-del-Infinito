@@ -27,15 +27,26 @@ class SpeedDownEffect(Effect):
 
 
 class LightChangeEffect(Effect):
+    def __init__(self):
+        self.activable = True
+
     def __str__(self):
         return "Effect:LightChange"
 
     def interact(self, rodillo):
-        pass
+        if self.activable:
+            rodillo.light_effect()
+            self.activable = False
 
 class PointEffect(Effect):
+    def __init__(self):
+        self.activable = True
+
     def __str__(self):
         return "Effect:Points"
 
     def interact(self, rodillo):
-        pass
+        def interact(self, rodillo):
+            if self.activable:
+                rodillo.light_effect()
+                self.activable = False

@@ -10,9 +10,6 @@ class Block:
         self.effect = NullEffect()
         self.make_interactive()
 
-    def interact(self):
-        pass
-
     def make_interactive(self):
         x = max(0.5, gauss(0.5, 0.3))
         if x > 0.7:

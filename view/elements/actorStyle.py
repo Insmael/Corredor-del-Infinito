@@ -66,6 +66,9 @@ class RectangleActor(Actor):
     def is_falling(self):
         return self.falling
 
+    def is_standing(self):
+        return not self.falling and not self.jumping
+
     def moving(self):
         return self.is_falling() or self.is_jumping()
 
@@ -74,4 +77,4 @@ class RectangleActor(Actor):
             self.falling = True
 
     def is_game_over(self):
-        return self.pos[Axis.Y] < self.jump_floor - 0.1
+        return self.pos[Axis.Y] < self.jump_floor - 0.15

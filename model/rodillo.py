@@ -3,6 +3,7 @@ from math import cos, sin, radians
 import pygame
 from OpenGL.GL import *
 
+from controler.menu_elements.others import PointMessage
 from model.map_element import *
 from view.vertex_generator import Vertex_generator
 
@@ -30,6 +31,11 @@ class Rodillo:
         self.rot = -90.0
         self.delta_ang = 360.0 / self.faces
 
+        # otros
+        self.points = 0
+        self.point_message = PointMessage()
+        self.light_switch = False
+
     def create_slice(self, i):  # slices
         figures = []
         self.vert_gen.define(1, self.faces, 0.2, self.deep * i)
@@ -53,8 +59,6 @@ class Rodillo:
         self.render_deepness += self.speed
         self.send_back()
 
-        # self.end_game()
-
     def rot_left(self):  # mecanicas
         self.rot += self.delta_ang
 
@@ -77,7 +81,7 @@ class Rodillo:
             self.slices.pop(0)
             self.remake_random(self.slices[-1])
 
-    def is_standable(self, actor_deep):  # mecanicas
+    def is_standable(self, actor_deep, standing):  # mecanicas
         actual_slice = int((self.render_deepness - actor_deep * (1.5) + self.deep) / self.deep - 1)
         for fig in self.slices[actual_slice]:
             c_x, c_y = fig.get_center()
@@ -85,7 +89,8 @@ class Rodillo:
             y = c_x * sin(radians(self.rot)) + c_y * cos(-radians(self.rot))
             if abs(x) < 0.01:
                 if y < 0:
-                    fig.interact(self)
+                    if standing:
+                        fig.interact(self)
                     return True
         return False
 
@@ -98,16 +103,10 @@ class Rodillo:
         glRasterPos4f(*position)
         glDrawPixels(text_surface.get_width(), text_surface.get_height(), GL_RGBA, GL_UNSIGNED_BYTE, text_data)
 
-    def drawtriangulo(self):  # extra
-        glLoadIdentity()
+    def light_effect(self):
+        self.light_switch = not self.light_switch
 
-        glTranslatef(0.0, 0.0, -30.0)
-
-        glBegin(GL_TRIANGLES)
-        glColor3f(1.0, 0.0, 0.0)
-        glVertex3f(0.0, 1.0, 0.0)
-        glColor3f(0.0, 1.0, 0.0)
-        glVertex3f(-1.0, -1.0, 0)
-        glColor3f(0.0, 0.0, 1.0)
-        glVertex3f(1.0, -1.0, 0)
-        glEnd()
+    def draw_points(self):
+        self.points += self.speed * 2
+        self.point_message.update(self.points)
+        self.point_message.draw()

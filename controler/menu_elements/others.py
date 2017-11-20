@@ -8,7 +8,7 @@ from OpenGL.GLU import *
 from model.axis import Axis
 
 
-class Other:
+class Message:
     def __init__(self):
         self.pos = [0.0, 0.0, 0.0]
 
@@ -19,7 +19,7 @@ class Other:
         pass
 
 
-class GameOverMessage(Other):
+class GameOverMessage(Message):
     def __init__(self):
         super(GameOverMessage, self).__init__()
         self.message = (SimpleTexture('g', (-11.0, 2.0, -20.0)),
@@ -61,6 +61,25 @@ class SimpleTexture:
         glEnd()
         glDisable(GL_TEXTURE_2D)
 
+    def pos_draw(self, pos):
+        glLoadIdentity()
+        glTranslatef(pos[Axis.X], pos[Axis.Y], pos[Axis.Z])
+        glScalef(0.025, 0.025, 1.0)
+        glEnable(GL_TEXTURE_2D)
+        glBindTexture(GL_TEXTURE_2D, self.texture)
+        glBegin(GL_QUADS)
+        glNormal3f(0.0, 0.0, 1.0)
+        glTexCoord2f(0.0, 0.0)
+        glVertex3f(-1.0, -1.0, 1.0)  # Bottom Left Of The Texture and Quad
+        glTexCoord2f(1.0, 0.0)
+        glVertex3f(1.0, -1.0, 1.0)  # Bottom Right Of The Texture and Quad
+        glTexCoord2f(1.0, 1.0)
+        glVertex3f(1.0, 1.0, 1.0)  # Top Right Of The Texture and Quad
+        glTexCoord2f(0.0, 1.0)
+        glVertex3f(-1.0, 1.0, 1.0)  # Top Left Of The Texture and Quad
+        glEnd()
+        glDisable(GL_TEXTURE_2D)
+
     def load_texture(self, file):
         texturefile = os.path.join('view', 'wallpapers', file)
         textureSurface = pygame.image.load_extended(texturefile)
@@ -73,3 +92,27 @@ class SimpleTexture:
         gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, textureSurface.get_width(), textureSurface.get_height(),
                           GL_RGBA, GL_UNSIGNED_BYTE, textureData)
         return texture
+
+
+class PointMessage(Message):
+    def __init__(self):
+        super(PointMessage, self).__init__()
+        self.numbers = (SimpleTexture('cero'),
+                        SimpleTexture('uno'),
+                        SimpleTexture('dos'),
+                        SimpleTexture('tres'),
+                        SimpleTexture('cuatro'),
+                        SimpleTexture('cinco'),
+                        SimpleTexture('seis'),
+                        SimpleTexture('siete'),
+                        SimpleTexture('ocho'),
+                        SimpleTexture('nueve'))
+        self.number = [0]
+
+    def draw(self):
+        for i in range(len(self.number) - 1):
+            pos = (-0.055 * (len(self.number) - i) + 0.7, 0.32, -2)
+            self.numbers[self.number[i]].pos_draw(pos)
+
+    def update(self, points):
+        self.number = [int(digit) for digit in str(int(points))]

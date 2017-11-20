@@ -1,10 +1,10 @@
-# from controler.game_driver import GameDriver
 import pygame
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from pygame.locals import *
 
 from controler.event_manager import EventManager
+from view.lightengine import LightEnginne
 from view.scenes import MainMenuScene, GameScene, GameOverScene, PauseScene
 from view.screen_sizes import Resolution
 
@@ -18,9 +18,13 @@ class Vista:
         self.menu_scene = MainMenuScene()
         self.pause_scene = PauseScene()
         self.game_over_scene = GameOverScene()
+        self.light_engine = LightEnginne()
         self.actual_scene = self.menu_scene
         self.game_speed = 1.0
         self.game_block_ratio = 1.0
+
+    def in_menu(self):
+        return self.actual_scene != self.game_scene
 
     def prepare(self):
         video_flags = OPENGL | DOUBLEBUF | RESIZABLE
@@ -42,17 +46,29 @@ class Vista:
         glClearColor(0.0, 0.0, 0.0, 0.0)
         glClearDepth(1.0)
         glEnable(GL_DEPTH_TEST)
+        glEnable(GL_LIGHTING)
         glDepthFunc(GL_LEQUAL)
+        glEnable(GL_COLOR_MATERIAL)
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST)
+        # glLightModelfv(GL_LIGHT_MODEL_AMBIENT, (0,5, 0.5, 0.5, 1.0))
 
     def run(self):
+
         while True:
+            self.light_engine.enable()
             self.event_manager.update(self)
             self.update()
+            if not self.in_menu():
+                self.light_engine.light_interaction(self.game_scene.light_interaction())
+                self.light_engine.fire()
+            else:
+                self.light_engine.menu_light()
+            self.light_engine.disable()
             self.try_game_over()
 
     def update(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        #glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE)
         self.actual_scene.draw()
         pygame.display.flip()
 
