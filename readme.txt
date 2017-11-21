@@ -4,4 +4,4 @@ se mueve en el menu con las flechas y se acepta con enter, en el juego se mueve 
 flechas de arriba y laterales, y la tecla p para ir al menu de pausa, en toodo momento
 se puede cerrar el juego con la tecla esc.
 el git está en https://github.com/Insmael/Corredor-del-Infinito
-pero es privado xd
+pero es privado xd, por ahora
