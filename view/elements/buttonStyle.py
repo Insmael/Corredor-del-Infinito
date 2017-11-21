@@ -43,7 +43,7 @@ class ButtonStyle:
         self.ang = pygame.time.get_ticks() / 500
 
     def load_texture(self, file):
-        texturefile = os.path.join('view', 'wallpapers', file)
+        texturefile = os.path.join('view', 'textures', file)
         textureSurface = pygame.image.load_extended(texturefile)
         textureData = pygame.image.tostring(textureSurface, "RGBX", 1)
         texture = glGenTextures(1)

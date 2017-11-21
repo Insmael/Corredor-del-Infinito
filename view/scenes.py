@@ -1,9 +1,10 @@
-from controler.menu_elements.actions import *
-from controler.menu_elements.button import Button
-from controler.menu_elements.others import *
+from model.menu_elements.actions import *
+from model.menu_elements.button import Button
+
+from model.menu_elements.others import *
 from model.rodillo import Rodillo
 from view.context import Context
-from view.elements.actorStyle import RectangleActor
+from view.elements.actorStyle import ActorHomoMorfo
 
 
 class GameScene:
@@ -11,20 +12,24 @@ class GameScene:
         self.context = Context()
         self.rodillo = Rodillo()
         self.actor_deep = -0.7
-        self.actor = RectangleActor([0.0, -0.15, self.actor_deep])
+        # self.actor = Actor([0.0, -0.15, self.actor_deep])
+
+        # segunda imagen de actor, sobree escribe a la anterior
+        self.actor = ActorHomoMorfo([0.0, -0.15, self.actor_deep])
 
     def reestart(self):
         self.__init__()
 
-    def set_difficulty(self, game_speed, block_ratio):
+    def set_difficulty(self, game_speed, block_ratio, jump_ratio):
         self.rodillo.speed *= game_speed
         self.rodillo.block_ratio *= block_ratio
+        self.actor.jump_ratio = jump_ratio
 
     def draw(self):
         self.context.draw()
         self.rodillo.draw()
         self.rodillo.draw_points()
-        self.actor.draw()
+        self.actor.draw(self.rodillo.speed)
 
         if self.rodillo.is_standable(self.actor_deep, self.actor.is_standing()):
             self.actor.stop_falling()
@@ -32,7 +37,10 @@ class GameScene:
             self.actor.normal_fall()
 
     def light_interaction(self):
-        return self.rodillo.light_switch
+        if self.rodillo.lights_on():
+            self.rodillo.switch_lights()
+            return True
+        return False
 
     def jump_left(self):
         if not self.actor.moving():

@@ -1,4 +1,4 @@
-from view.vista import Vista
+from view.gameengine import GameEngine
 
-game = Vista()
+game = GameEngine()
 game.run()

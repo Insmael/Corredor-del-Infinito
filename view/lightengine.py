@@ -1,6 +1,8 @@
-from random import gauss, randint
+from math import sin
+from random import randint
 
 from OpenGL.GL import *
+from pygame.time import get_ticks
 
 
 class LightEnginne:
@@ -15,11 +17,11 @@ class LightEnginne:
 
         # crear una luz coherente con su color base
         self.l_diffuse = [5.0, 5.0, 5.0, 1.0]
-        self.l_ambient = [i / 8.0 for i in self.l_diffuse]
+        self.l_ambient = [i / 6.0 for i in self.l_diffuse]
         self.l_specular = self.l_diffuse
 
         # otros valores estandar
-        self.l_constant_attenuation = 1.0
+        self.l_constant_attenuation = 0.0
         self.l_linear_attenuation = 0.2
         self.l_quadratic_attenuation = 0.01
 
@@ -30,17 +32,18 @@ class LightEnginne:
         # effectors
         self.l_eff_manager = LEffmanager()
 
-    def fire(self):
-        self.static_fire()
+    def reestart(self):
+        self.__init__()
+        glDisable(GL_BLEND)
 
-    def static_fire(self):
+    def fire(self):
+        self.l_eff_manager.aply_effect()
         glLoadIdentity()
         # gluLookAt(self.camPos[0], self.camPos[1], self.camPos[2],  # posicion
         #          self.camAt[0], self.camAt[1], self.camAt[2],  # mirando hacia
         #          0.0, 0.0, 1.0)  # inclinacion
 
         # luz
-        self.l_eff_manager.aply_effect()
         glLightfv(self.light, GL_POSITION, self.l_eff_manager.l_position())
         glLightfv(self.light, GL_AMBIENT, self.l_eff_manager.l_ambient())
         glLightfv(self.light, GL_SPECULAR, self.l_eff_manager.l_specular())
@@ -65,9 +68,11 @@ class LightEnginne:
 
     def enable(self):
         glEnable(self.light)
+        glEnable(GL_LIGHT1)
 
     def disable(self):
         glDisable(self.light)
+        glEnable(GL_LIGHT1)
 
     def light_interaction(self, bool):
         if bool:
@@ -77,6 +82,7 @@ class LightEnginne:
 class LightEffect:
     def __init__(self):
         self.l_position = (10.0, 1.0, -0.1, 1.0)
+        self.fix_l_position = self.l_position
 
         # crear una luz coherente con su color base
         self.l_diffuse = [5.0, 5.0, 5.0, 1.0]
@@ -86,9 +92,17 @@ class LightEffect:
         self.l_constant_attenuation = 1.0
         self.l_linear_attenuation = 0.2
         self.l_quadratic_attenuation = 0.01
+        self.counter = 0
 
     def aply(self):
         pass
+
+    def start(self):
+        pass
+
+    def stop(self):
+        pass
+
 
 
 class NullLightEffect(LightEffect):
@@ -96,27 +110,34 @@ class NullLightEffect(LightEffect):
         pass
 
 
-class MovingLightEffect(LightEffect):
-    def aply(self):
-        self.l_position = [min(3, max(-3, gauss(0, 0.001) + x)) for x in self.l_position]
-
-
-class ColorLightEffect(LightEffect):
-    def aply(self):
-        self.l_diffuse = [min(3, max(-3, gauss(0, 0.001) + x)) for x in self.l_diffuse]
-
-
 class PumpingLightEffect(LightEffect):
     def aply(self):
-        self.l_constant_attenuation = min(3, max(0, gauss(0, 0.001) + self.l_constant_attenuation))
-        self.l_linear_attenuation = min(0.2, max(0, gauss(0, 0.001) + self.l_linear_attenuation))
-        self.l_quadratic_attenuation = min(0.2, max(0, gauss(0, 0.001) + self.l_quadratic_attenuation))
+        x, y, z, a = self.fix_l_position
+        self.l_position = (x + sin(get_ticks() / 50),
+                           y + sin(get_ticks() / 50),
+                           z + sin(get_ticks() / 50),
+                           abs(4 * a * sin(get_ticks() / 200)))
+
+
+class BlendEffect(LightEffect):
+    def start(self):
+        glEnable(GL_BLEND)
+
+    def stop(self):
+        glDisable(GL_BLEND)
+
+
+class DarkEffect(LightEffect):
+    def aply(self):
+        self.l_constant_attenuation = 2
+        self.l_linear_attenuation = 2
+        self.l_quadratic_attenuation = 2
 
 
 class LEffmanager:
     def __init__(self):
         self.no_effect = NullLightEffect()
-        self.effects = [MovingLightEffect(), ColorLightEffect(), PumpingLightEffect()]
+        self.effects = [PumpingLightEffect(), BlendEffect(), DarkEffect()]
         self.effect_on = False
         self.actual = self.no_effect
 
@@ -145,6 +166,7 @@ class LEffmanager:
         return self.actual.l_quadratic_attenuation
 
     def switch_effects(self):
+        self.actual.stop()
         if self.effect_on:
             self.actual = self.no_effect
             self.effect_on = False
@@ -152,3 +174,4 @@ class LEffmanager:
         else:
             self.actual = self.effects[randint(0, 2)]
             self.effect_on = True
+        self.actual.start()

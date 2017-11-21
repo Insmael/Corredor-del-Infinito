@@ -11,7 +11,7 @@ class Context:
         self.textures = self.load('galaxia3.bmp')
 
     def load(self, file):
-        texturefile = os.path.join('view', 'wallpapers', file)
+        texturefile = os.path.join('view', 'textures', file)
         textureSurface = pygame.image.load_extended(texturefile)
         textureData = pygame.image.tostring(textureSurface, "RGBX", 1)
         textures = glGenTextures(3)
@@ -37,6 +37,7 @@ class Context:
 
     def draw(self):
         glLoadIdentity()
+        glColor3fv((10, 10, 10))
         glTranslatef(0.0, 0.0, -100.0)
         glScalef(50.0, 40.0, 0.0)
         glEnable(GL_TEXTURE_2D)

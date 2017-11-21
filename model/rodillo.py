@@ -3,8 +3,8 @@ from math import cos, sin, radians
 import pygame
 from OpenGL.GL import *
 
-from controler.menu_elements.others import PointMessage
-from model.map_element import *
+from model.menu_elements.others import PointMessage
+from view.elements.map_element import *
 from view.vertex_generator import Vertex_generator
 
 
@@ -110,3 +110,12 @@ class Rodillo:
         self.points += self.speed * 2
         self.point_message.update(self.points)
         self.point_message.draw()
+
+    def extra_points(self):
+        self.points += 100
+
+    def lights_on(self):
+        return self.light_switch
+
+    def switch_lights(self):
+        self.light_effect()
