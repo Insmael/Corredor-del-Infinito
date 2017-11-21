@@ -7,13 +7,11 @@ from model import soundengine
 from model.event_manager import EventManager
 from view.lightengine import LightEnginne
 from view.scenes import MainMenuScene, GameScene, GameOverScene, PauseScene
-from view.screen_sizes import Resolution
 
 
 class GameEngine:
-
-    def __init__(self):
-        self.prepare()
+    def __init__(self, screen_size):
+        self.prepare(screen_size)
         self.event_manager = EventManager()
         self.game_scene = GameScene()
         self.menu_scene = MainMenuScene()
@@ -29,13 +27,13 @@ class GameEngine:
     def in_menu(self):
         return self.actual_scene != self.game_scene
 
-    def prepare(self):
+    def prepare(self, screen_size):
         video_flags = OPENGL | DOUBLEBUF | RESIZABLE
         pygame.init()
         # resize window
-        pygame.display.set_mode(Resolution.LARGE.value, video_flags)
-        width = Resolution.LARGE.value[0]
-        height = Resolution.LARGE.value[1]
+        pygame.display.set_mode(screen_size, video_flags)
+        width = screen_size[0]
+        height = screen_size[1]
         if height == 0:
             height = 1
         glViewport(0, 0, width, height)

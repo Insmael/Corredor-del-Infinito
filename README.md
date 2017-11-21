@@ -61,20 +61,20 @@ endless runner
 
     - el juego y la vista son la misma estructura.
     
-- [ ] **DEMO**
+- [x] **DEMO**
 
-- [ ] **ARCHIVO README con instrucciones de ejecución del juego.**
+- [x] **ARCHIVO README con instrucciones de ejecución del juego.**
   
   ###   PRESENTACIÓN
   
-- [ ] breve descripción del problema.
+- [x] breve descripción del problema.
 
-- [ ] explicación de las operaciones y de las metodologias usadas. (explicar las metáforas 
+- [x] explicación de las operaciones y de las metodologias usadas. (explicar las metáforas 
 pensadas para representar el problema)
 
-- [ ] discución sobre las dificultades encontradas.
+- [x] discución sobre las dificultades encontradas.
 
-- [ ] resultados.
+- [x] resultados.
 
-- [ ] conclusión a partir de los resultados.
+- [x] conclusión a partir de los resultados.
 

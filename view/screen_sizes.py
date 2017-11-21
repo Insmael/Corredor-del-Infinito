@@ -6,4 +6,5 @@ class Resolution(Enum):
     MEDIUM = (800, 600)
     LARGE = (1024, 600)
     BIG = (1024, 768)
+    ANOTHERBIG = (1366, 768)
     XL = (1440, 900)
