@@ -22,27 +22,27 @@ effect4 = load(path4)
 path5 = os.path.join('model', 'sounds', 'effect5.ogg')
 effect5 = load(path5)
 
-""""""
+
 
 
 def play_effect1():
-    effect1.play(maxtime=1000)
+    pass  # effect1.play(maxtime=1000)
 
 
 def play_effect2():
-    effect2.play(maxtime=1000)
+    pass  #effect2.play(maxtime=1000)
 
 
 def play_effect3():
-    effect3.play(maxtime=1000)
+    pass  #effect3.play(maxtime=1000)
 
 
 def play_effect4():
-    effect4.play(maxtime=1000)
+    pass  #effect4.play(maxtime=1000)
 
 
 def play_effect5():
-    effect5.play(maxtime=1000)
+    pass  #effect5.play(maxtime=1000)
 
 
 def play_main_song():

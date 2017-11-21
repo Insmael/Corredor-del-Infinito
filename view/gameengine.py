@@ -145,6 +145,7 @@ class GameEngine:
 
     def try_game_over(self):
         if self.game_scene.actor.is_game_over():
+            self.game_over_scene.point_message.update(self.game_scene.rodillo.points)
             self.actual_scene = self.game_over_scene
             self.event_manager.in_menu = True
             self.light_engine.reestart()

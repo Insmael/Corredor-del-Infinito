@@ -139,12 +139,14 @@ class GameOverScene(MenuScene):
         self.change_over()
         self.context = Context()
         self.game_over_message = GameOverMessage()
+        self.point_message = PointMessage()
 
     def draw(self):
         self.context.draw()
         for key in self.button_keys:
             self.buttons[key].draw()
         self.game_over_message.draw()
+        self.point_message.draw()
 
     def select(self, vista):
         self.buttons[self.button_keys[self.over]].select(vista)
